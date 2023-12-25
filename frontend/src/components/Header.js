@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <>
-      <header>
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <header className="mb-5" >
+        <nav className="navbar navbar-expand-md navbar-dark fixed-top" style={{ backgroundColor: "#F8F9FA"  }} >
           <div className="container-fluid">
-            <Link className="navbar-brand" to="/">
+            <Link className="navbar-brand" to="/" style={{color: "black"}} >
               BistroPal
             </Link>
+
             <button
               className="navbar-toggler"
               type="button"
@@ -21,43 +22,41 @@ const Header = () => {
             >
               <span className="navbar-toggler-icon"></span>
             </button>
+            
             <div
-              className="collapse navbar-collapse"
+              className="collapse navbar-collapse "
               id="navbarSupportedContent"
             >
-              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            
+              <div className="me-auto" ></div>
+
+              <ul className="navbar-nav  mb-2 mb-lg-0" style={{ color: "black" , opacity: "0.5" }} >
                 <li className="nav-item">
                   <Link
                     className="nav-link active"
+                    style={{color: "#000"}}
                     aria-current="page"
                     to="/restaurants"
+                    
                   >
-                    Restaurants
+                    Restaurants List
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/addrestaurant">
-                    Add Restaurants
+                  <Link className="nav-link" style={{color: "#000"}} to="/addrestaurant">
+                    Add Restaurant
                   </Link>
                 </li>
 
                 <li className="nav-item">
-                  <Link className="nav-link" to="/aboutus">
+                  <Link className="nav-link"
+                  style={{color: "#000"}}
+                  to="/aboutus">
                     About us
                   </Link>
                 </li>
               </ul>
-              <form className="d-flex" role="search">
-                <input
-                  className="form-control me-2"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                />
-                <button className="btn btn-outline-success" type="submit">
-                  Search
-                </button>
-              </form>
+
             </div>
           </div>
         </nav>

@@ -82,6 +82,10 @@ const UpdateRestaurant = () => {
       <div id="addRestaurantsPage">
         <h1>Add Restaurant</h1>
 
+        {getData.isLoading === true ? (
+          <p className="bg-primary text-center text-white my-2 p-2"> Data Loading ... </p>
+        ) : null}
+
         <form onSubmit={onSubmitHandler}>
           <div className="mb-3">
             <label htmlFor="name" className="form-label">

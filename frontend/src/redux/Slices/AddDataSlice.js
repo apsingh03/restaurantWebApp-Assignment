@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 
 const initialState = { data: [], isLoading: false, isError: false };
 
@@ -75,42 +76,64 @@ const addRestaurantSlice = createSlice({
   name: "addRestaurant",
   initialState,
   reducers: {
-
     filterIt(state, action) {
-      
-      console.log("filter it ")
+      console.log("filter it ");
 
       // action.push(italianData);
       // console.log( "italianData ",  italianData)
     },
 
-    sortByRating(state , action ) {
+    sortByRating(state, action) {
+      let ratingData = state.data.data.sort((a, b) => {
+        return b.rating - a.rating;
+      });
 
-      // const italianData = state.data.data.sort( (data) => {
-      //   // console.log( data.cuisine );
-      //   if (data.cuisine === "italian") {
-      //    // console.log( data.cuisine );
-      //    return data;
-      //   }
-      //  //  return data.cuisine === "italian";
-      //  } )
-
-      let ratingData = state.data.data.sort( (a, b) => {
-        // console.log( "sort ",  a.rating , b.rating)
-        return  a.rating , b.rating;
-      } )
-       
-      console.log("ratingData " , ratingData )
-
-      ratingData.map( (data) => {
-        console.log(data)
-      } )
-      //  action.payload = ratingData
-
-      state.data.data.push( action.payload )
-      
+      state.data.data = ratingData;
     },
-   
+
+    sortByName(state, action) {
+      let nameData = state.data.data.sort((a, b) => {
+        return a.name.localeCompare(b.name);
+      });
+
+      state.data.data = nameData;
+    },
+
+    filterItalian(state, action) {
+      let italianData =
+        state.data.data &&
+        state.data.data.filter((data) => {
+          return data.cuisine === "italian";
+        });
+
+      console.log("italianData -> ", italianData);
+
+      state.data.data = italianData;
+    },
+
+    filterMaxican(state, action) {
+      let maxicanData =
+        state.data.data &&
+        state.data.data.filter((data) => {
+          return data.cuisine === "maxican";
+        });
+
+      console.log("maxicanData -> ", maxicanData);
+
+      state.data.data = maxicanData;
+    },
+
+    filterAll(state, action) {
+      // let allData = state.data.data.map( (data) => {
+      //   return data
+      // });
+
+      state.data.data = action.payload;
+
+      // console.log( "filterAll -> ", allData )
+
+      // state.data.data = {...allData};
+    },
   },
 
   extraReducers: (builder) => {
@@ -159,10 +182,6 @@ const addRestaurantSlice = createSlice({
           return data.id === id;
         });
 
-        // console.log("blogIdx ", blogIdx);
-
-        // console.log(id);
-
         state.data.data.splice(blogIdx, 1);
       })
 
@@ -188,5 +207,11 @@ const addRestaurantSlice = createSlice({
   },
 });
 
-export const { filterIt, sortByRating } = addRestaurantSlice.actions
+export const {
+  sortByName,
+  sortByRating,
+  filterItalian,
+  filterMaxican,
+  filterAll,
+} = addRestaurantSlice.actions;
 export default addRestaurantSlice.reducer;

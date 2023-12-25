@@ -32,8 +32,14 @@ const RestaurantDetail = () => {
     <section className="p-5" >
         <h1>Restaurant Details</h1>
 
+
+
         <hr />
 
+
+        {getData.isLoading === true ? (
+          <p className="bg-primary text-center text-white my-2 p-2"> Data Loading ... </p>
+        ) : null}
         <h1> {getData.data.data && getData.data.data[0].name  } </h1>
 
         <p> <b>cuisine - </b> {getData.data.data && getData.data.data[0].cuisine  }  </p>
