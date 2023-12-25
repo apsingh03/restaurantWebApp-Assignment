@@ -1,8 +1,63 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
+import { useSelector, useDispatch } from "react-redux";
+import {
+  deleteRestaurantAsync,
+  getRestaurantAsync,
+} from "../redux/Slices/AddDataSlice";
+import { Link, useNavigate } from "react-router-dom";
+
+
+import { filterIt , sortByRating } from "../redux/Slices/AddDataSlice";
+
 const Restaurants = () => {
+
+  const navigation = useNavigate();
+
+  const getData = useSelector((state) => state.addData);
+
+  const [Data, setData] = useState([]);
+
+  const dispatch = useDispatch();
+
+  
+  const fetchData = () => {
+    if (getData.isLoading !== true && getData.data.data !== undefined) {
+      // console.log(getData.data.data)
+      setData(getData.data.data); 
+    }
+  };
+
+
+  useEffect(() => {
+
+    dispatch(getRestaurantAsync());
+    
+    
+    fetchData();
+
+  }, [navigation]);
+
+  const filterOnChange = (data) => {
+    
+    console.log( "filter -> " ,  data )
+  
+  }
+
+  const sortByOnChange = (data) => {
+    console.log( "rating -> " ,  data);
+    if (data === "name") {
+      
+    }  
+
+    if (data === "rating") {
+      dispatch( sortByRating() )  
+    }
+
+  }
+
   return (
     <>
       <Header />
@@ -12,48 +67,73 @@ const Restaurants = () => {
 
         <div className="my-4">
           <label>Filter by Cuisine:</label>
-          <select class="form-select" aria-label="Default select example">
-            <option selected value="all">
+          <select className="form-select"  onChange= {  (e) => filterOnChange(e.target.value)  }  >
+            <option  value="all"   >
               All
             </option>
-            <option value="italian">Italian</option>
+            <option value="italian" >Italian</option>
             <option value="maxican">Maxican</option>
           </select>
         </div>
 
         <div>
           <label>Sort by:</label>
-          <select class="form-select" aria-label="Default select example">
-            <option selected value="name">
+          <select className="form-select"  onChange= {  (e) => sortByOnChange(e.target.value)  }  >
+            <option value="name">
               Name
             </option>
             <option value="rating">Rating</option>
           </select>
         </div>
 
-        <div className="border p-3 mt-3">
-          <h3>Name - </h3>
+        {getData.data.data &&
+          getData.data.data.map((data) => {
+            return (
+              <div className="border p-3 mt-3" key={data.id}>
+                <h3>Name - {data.name} </h3>
 
-          <p>Cuisine: indian</p>
+                <p>Cuisine: {data.cuisine} </p>
 
-          <p>Address: Saidapur galli, Mudhol </p>
+                <p>Address: {data.address} </p>
 
-          <p>Rating: 4.8</p>
+                <p>Rating: {data.rating} </p>
 
-          <div className="d-flex flex-row actionBtns">
-            <div>
-              <button className="btn btn-primary btn-md"> View Details </button>
-            </div>
+                <div className="d-flex flex-row actionBtns">
+                  <div>
+                    <Link
+                      className="btn btn-primary btn-md"
+                      to={`/restaurantDetail/${data.id}`}
+                    >
+                      {" "}
+                      View Details{" "}
+                    </Link>
+                  </div>
 
-            <div>
-              <button className="btn btn-danger btn-md"> Delete </button>
-            </div>
+                  <div>
+                    <button
+                      onClick={() =>
+                        dispatch(deleteRestaurantAsync({ id: data.id }))
+                      }
+                      className="btn btn-danger btn-md"
+                    >
+                      {" "}
+                      Delete{" "}
+                    </button>
+                  </div>
 
-            <div>
-              <button className="btn btn-warning btn-md"> Update </button>
-            </div>
-          </div>
-        </div>
+                  <div>
+                    <Link
+                      className="btn btn-warning btn-md"
+                      to={`/update/${data.id}`}
+                    >
+                      {" "}
+                      Update{" "}
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
       </div>
 
       <Footer />
