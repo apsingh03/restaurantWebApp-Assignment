@@ -1,0 +1,32 @@
+.firstContainer {
+  background-color: #e9ecef;
+  height: 310px;
+}
+
+.firstContainer h5 {
+  font-weight: 300;
+}
+
+.firstContainer h6 {
+  font-weight: 400;
+}
+
+.secondContainer {
+  padding: 40px 53px;
+}
+
+.thirdContainer {
+  padding: 0px 53px;
+}
+
+#restaurantsPage {
+  padding: 20px 53px;
+}
+
+#restaurantsPage .actionBtns > div {
+  padding-right: 15px;
+}
+
+#addRestaurantsPage {
+  padding: 20px 53px;
+}
